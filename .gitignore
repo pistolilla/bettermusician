@@ -3,3 +3,7 @@
 *.pyc
 *.pyo
 .DS_Store
+
+# node
+/node_modules
+package*.json
