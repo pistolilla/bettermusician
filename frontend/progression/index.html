@@ -3,13 +3,25 @@
     <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/sketchy/bootstrap.min.css">
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <script src="//cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
+
     <title>Chord progression</title>
     </head>
 <body>
-    <h3 id="title"></h3>
-    <p id="notes"></p>
-    <table id="displayTable"></table>
+    <div class="mx-5 content">
+        <div class="jumbotron py-4">
+            <div class="row mr-0">
+                <h3 id="title"></h3>
+            </div>
+            <p id="notes"></p>
+        </div>
+        <div class="row">
+            <table id="displayTable" class="table table-hover mt-3"></table>
+        </div>
+    </div>
     <script type="text/javascript" src="index.js"></script>
 </body>
 </html>
