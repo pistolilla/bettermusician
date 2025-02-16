@@ -1,0 +1,78 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Api:
+    # prevent default Stage being created
+    OpenApiVersion: 3.0.1
+  Function:
+    Runtime: python3.9
+    Timeout: 29
+
+Parameters:
+  # Build variables
+  Stage:
+    Type: String
+
+Resources:
+  # Functions
+  ChordProgression:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/chord_progression
+      Handler: handler.handler
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /progression/generate
+            Method: POST
+            RestApiId: !Ref CommonApiGateway
+
+  CommonApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: !Ref Stage
+      Cors:
+        AllowMethods: "'POST,OPTIONS'"
+        AllowHeaders: "'Access-Control-Allow-Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with,x-requested-for'"
+        AllowOrigin: "'*'"
+      DefinitionBody:
+        swagger: 2.0
+        info:
+          version: 1.1
+          title: !Sub ${AWS::StackName}-GateWay
+        x-definitions:
+          lfCorsResponses: &lfCorsResponses
+            default:
+              statusCode: 200
+              responseParameters:
+                method.response.header.Access-Control-Allow-Origin: "'*'"
+              responseTemplates:
+                application/json: |
+                  #set($payload = $util.parseJson($input.json('$')))
+                  #set($context.responseOverride.status = $payload.statusCode)
+                  $payload.body
+        paths:
+          # lambdas
+          /progression/generate:
+            post:
+              responses:
+                "200":
+                  schema:
+                    $ref: "#/definitions/Empty"
+                  headers:
+                    Access-Control-Allow-Origin:
+                      type: string
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: AWS # must be AWS to allow cors headers
+                uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ChordProgression.Arn}/invocations
+                responses:
+                  <<: *lfCorsResponses
+
+Outputs:
+  BaseUrl:
+    Value: !Sub "https://${CommonApiGateway}.execute-api.${AWS::Region}.amazonaws.com/${Stage}"
+  ChordProgression:
+    Value: /progression/generate

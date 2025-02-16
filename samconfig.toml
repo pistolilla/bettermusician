@@ -1,0 +1,9 @@
+version = 0.1
+
+[default.deploy.parameters]
+stack_name = "leo-bettermusician"
+s3_bucket = "leo-cloudformation-s3"
+s3_prefix = "leo-bettermusician"
+region = "us-east-1"
+capabilities = "CAPABILITY_IAM"
+image_repositories = []
