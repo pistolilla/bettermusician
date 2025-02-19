@@ -2,6 +2,8 @@ import random
 import json
 from http import HTTPStatus
 
+NOTES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+
 def get_scale(root, scale_type):
     """Returns a scale given the root and type."""
     scales = {
@@ -9,10 +11,9 @@ def get_scale(root, scale_type):
         "natural minor": [0, 2, 3, 5, 7, 8, 10],
         "melodic minor": [0, 2, 3, 5, 7, 9, 11],  # Ascending melodic minor
     }
-    notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
     scale_notes = []
     for interval in scales[scale_type]:
-        scale_notes.append(notes[(notes.index(root) + interval) % 12])
+        scale_notes.append(NOTES[(NOTES.index(root) + interval) % 12])
     return scale_notes
 
 def get_chords_from_scale(scale):
@@ -29,93 +30,85 @@ def get_chords_from_scale(scale):
         sevenths.append([root, third, fifth, seventh])
     return triads, sevenths
 
-def generate_progression(root, scale_type):
-    scale = get_scale(root, scale_type)
-    triads, sevenths = get_chords_from_scale(scale)
-
-    progression = []
-    roman_numerals = []  # Initialize here
-    chord_names = []
-
-    for _ in range(4):
-        triad = random.choice(triads)
-        progression.append(triad)
-        name, roman = get_chord_name_and_roman(triad, scale, scale_type)
-        chord_names.append(name)
-        roman_numerals.append(roman)
-
-    seventh = random.choice(sevenths)
-    progression.append(seventh)
-    name, roman = get_chord_name_and_roman(seventh, scale, scale_type, seventh=True)  # Indicate 7th chord
-    chord_names.append(name)
-    roman_numerals.append(roman)
-
-    random.shuffle(progression)
-    # Don't shuffle roman numerals and names separately; they need to stay aligned.
-    combined = list(zip(progression, chord_names, roman_numerals))
-    random.shuffle(combined)
-    progression, chord_names, roman_numerals = zip(*combined)
-
-    return scale, list(progression), list(chord_names), list(roman_numerals)  # Convert tuples back to lists
-
-def get_chord_name_and_roman(chord, scale, scale_type, seventh=False):
+def get_chord_name_and_roman(chord, scale):
     root = chord[0]
     root_index = scale.index(root)
     roman_base = ["I", "II", "III", "IV", "V", "VI", "VII"][root_index]
 
     intervals = []
+    root_index = NOTES.index(root)
     for note in chord[1:]:
-        intervals.append((scale.index(note) - root_index) % len(scale)) #always positive
+        intervals.append((NOTES.index(note) - root_index) % len(NOTES))
 
-    if seventh:
-        chord_type ="7" # For now, all sevenths are dominant 7ths
-    elif intervals == [2,4] or intervals == [3, 5]: # Minor third, Perfect Fifth
-        chord_type = "min"
-    elif intervals == [2, 5]: #Minor third, tritone
-        chord_type = "dim"
-    elif intervals == [3,4]: # Major Third, Perfect Fifth
-        chord_type = "" # Major chord (no suffix)
-    elif intervals == [4,5]: # Augmented Chord
-        chord_type = "aug"
+    if intervals[:2] == [4, 7]:
+        chord_type = ""  # Major chord
+        roman = roman_base
+    elif intervals[:2] == [3, 7]:
+        chord_type = "m"  # Minor chord
+        roman = roman_base.lower()
+    elif intervals[:2] == [3, 6]:
+        chord_type = "dim"  # Diminished chord
+        roman = roman_base.lower() + "°"
+    elif intervals[:2] == [4, 6]:
+        chord_type = "aug"  # Augmented chord
+        roman = roman_base.upper() + "+"
     else:
         chord_type = "?"  # Unrecognized chord type
+        roman = "?"
 
-    chord_name = root + chord_type
-    if seventh: # A dominant 7 chord is always represented with a major roman numeral. So we do this check after setting chord_type
-        roman = roman_base.upper() + "7"
-    elif chord_type == "min":
-        roman = roman_base.lower()
-    elif chord_type == "dim":
-        roman = roman_base.lower() + "°"
-    elif chord_type == "aug":
-        roman = roman_base.upper() + "+"
-    else:  # Major chord
-        roman = roman_base.upper()
+    # sevenths
+    # TODO: add 9,11,13 and sort at the end
+    sevenths = intervals[2:]
+    while sevenths:
+        interval = sevenths.pop(0)
+        if interval == 9:
+            chord_type += "6"
+            roman += "6"
+        elif interval == 10:
+            chord_type += "7"
+            roman += "7"
+        elif interval == 11:
+            chord_type += "M7"
+            roman += "M7"
+    return {
+        "chord": root + chord_type,
+        "roman": roman,
+        "notes": " ".join(chord)
+    }
 
-    return chord_name, roman
+def generate_progression(root, scale_type, triads_count, sevenths_count, random_seed=None):
+    if random_seed is not None:
+        random.seed(random_seed)
+    scale = get_scale(root, scale_type)
+    triads, sevenths = get_chords_from_scale(scale)
 
-def random_progression(root=None, scale_type=None):
+    progression = []
+    # take n triads
+    for _ in range(triads_count):
+        chord = random.choice(triads)
+        progression.append(get_chord_name_and_roman(chord, scale))
+    for _ in range(sevenths_count):
+        chord = random.choice(sevenths)
+        progression.append(get_chord_name_and_roman(chord, scale))
+    random.shuffle(progression)
+    return progression
+
+def random_progression(root=None, scale_type=None, triads_count=4, sevenths_count=1, random_seed=None):
     # TODO: randomly return sharps or flats
+    if random_seed is not None:
+        random.seed(random_seed)
     if root is None:
-        root = random.choice(["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"])
+        root = random.choice(NOTES)
     if scale_type is None:
         scale_type = random.choice([
             "major",
             "natural minor",
             #"melodic minor"
         ])
-    scale, progression, chord_names, roman_progression = generate_progression(root, scale_type)
-    sequence = []
-    for i, chord in enumerate(chord_names):
-        sequence.append({
-            "chord": chord,
-            "roman": roman_progression[i],
-            "notes": " ".join(progression[i])
-        })
     return {
         "scale": f"{root} {scale_type}",
-        "scale_notes": " ".join(scale),
-        "progression": sequence
+        "scale_notes": " ".join(get_scale(root, scale_type)),
+        "progression": generate_progression(root, scale_type, triads_count, sevenths_count, random_seed)
     }
 
 def handler(event, *args):
