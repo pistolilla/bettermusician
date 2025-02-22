@@ -65,8 +65,13 @@ def get_chord_name_and_roman(chord, scale):
             chord_type += "6"
             roman += "6"
         elif interval == 10:
-            chord_type += "7"
-            roman += "7"
+            if chord_type.endswith("dim"):
+                # half diminished
+                chord_type = chord_type.replace("dim", "m7b5")
+                roman = roman.replace("°", "ø")
+            else:
+                chord_type += "7"
+                roman += "7"
         elif interval == 11:
             chord_type += "M7"
             roman += "M7"

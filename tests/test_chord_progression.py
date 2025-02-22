@@ -94,6 +94,16 @@ SAMPLE_CHORD_NAMES = [
             "notes": "D F A"
         }
     },
+    # A# natural minor, half diminished
+    {
+        "chord": ["C", "D#", "F#", "A#"],
+        "scale": ["A#", "C", "C#", "D#", "F", "F#", "G#"],
+        "expected": {
+            "chord": "Cm7b5",
+            "roman": "iiø",
+            "notes": "C D# F# A#"
+        }
+    },
 ]
 def test_get_chord_name_and_roman():
     for sample in SAMPLE_CHORD_NAMES:
@@ -156,7 +166,7 @@ SAMPLE_RANDOM_SEEDS = [
             "scale": "D major",
             "scale_notes": "D E F# G A B C#",
             "progression": [
-                {"chord": "C#dim7", "roman": "vii°7", "notes": "C# E G B"},
+                {"chord": "C#m7b5", "roman": "viiø", "notes": "C# E G B"},
                 {"chord": "A7", "roman": "V7", "notes": "A C# E G"},
                 {"chord": "Em", "roman": "ii", "notes": "E G B"}
             ]
