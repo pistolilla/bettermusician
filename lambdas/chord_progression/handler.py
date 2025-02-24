@@ -2,10 +2,24 @@ import random
 import json
 from http import HTTPStatus
 
-NOTES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+NOTES_SHARP = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+NOTES_FLAT  = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
 
 def get_scale(root, scale_type):
     """Returns a scale given the root and type."""
+    if scale_type == "major":
+        root = {"C#": "Db", "D#": "Eb", "Gb": "F#", "G#": "Ab", "A#": "Bb"}.get(root, root)
+        if root in "C G D A E".split() or "#" in root:
+            notes = NOTES_SHARP
+        else:
+            notes = NOTES_FLAT
+    elif scale_type == "natural minor":
+        root = {"Db": "C#", "Eb": "D#", "Gb": "F#", "Ab": "G#", "A#": "Bb"}.get(root, root)
+        if root in "A E B".split() or "#" in root:
+            notes = NOTES_SHARP
+        else:
+            notes = NOTES_FLAT
+
     scales = {
         "major": [0, 2, 4, 5, 7, 9, 11],
         "natural minor": [0, 2, 3, 5, 7, 8, 10],
@@ -13,8 +27,8 @@ def get_scale(root, scale_type):
     }
     scale_notes = []
     for interval in scales[scale_type]:
-        scale_notes.append(NOTES[(NOTES.index(root) + interval) % 12])
-    return scale_notes
+        scale_notes.append(notes[(notes.index(root) + interval) % 12])
+    return root, scale_notes
 
 def get_chords_from_scale(scale):
     """Generates triads and seventh chords from a scale."""
@@ -32,13 +46,20 @@ def get_chords_from_scale(scale):
 
 def get_chord_name_and_roman(chord, scale):
     root = chord[0]
+    if set(chord).issubset(set(NOTES_SHARP)):
+        notes = NOTES_SHARP
+    elif set(chord).issubset(set(NOTES_FLAT)):
+        notes = NOTES_FLAT
+    else:
+        raise Exception(f"Notes: {notes} are not found on any scale")
+
     root_index = scale.index(root)
     roman_base = ["I", "II", "III", "IV", "V", "VI", "VII"][root_index]
 
     intervals = []
-    root_index = NOTES.index(root)
+    root_index = notes.index(root)
     for note in chord[1:]:
-        intervals.append((NOTES.index(note) - root_index) % len(NOTES))
+        intervals.append((notes.index(note) - root_index) % len(notes))
 
     if intervals[:2] == [4, 7]:
         chord_type = ""  # Major chord
@@ -84,7 +105,7 @@ def get_chord_name_and_roman(chord, scale):
 def generate_progression(root, scale_type, triads_count, sevenths_count, random_seed=None):
     if random_seed is not None:
         random.seed(random_seed)
-    scale = get_scale(root, scale_type)
+    _, scale = get_scale(root, scale_type)
     triads, sevenths = get_chords_from_scale(scale)
 
     progression = []
@@ -103,16 +124,17 @@ def random_progression(root=None, scale_type=None, triads_count=4, sevenths_coun
     if random_seed is not None:
         random.seed(random_seed)
     if root is None:
-        root = random.choice(NOTES)
+        root = random.choice(NOTES_SHARP + NOTES_FLAT)
     if scale_type is None:
         scale_type = random.choice([
             "major",
             "natural minor",
             #"melodic minor"
         ])
+    root, scale_notes = get_scale(root, scale_type)
     return {
         "scale": f"{root} {scale_type}",
-        "scale_notes": " ".join(get_scale(root, scale_type)),
+        "scale_notes": " ".join(scale_notes),
         "progression": generate_progression(root, scale_type, triads_count, sevenths_count, random_seed)
     }
 
@@ -122,5 +144,5 @@ def handler(event, *args):
         "headers": {
             "content-type": "application/json",
         },
-        "body": json.dumps(random_progression(*event))
+        "body": json.dumps(random_progression(**event))
     }

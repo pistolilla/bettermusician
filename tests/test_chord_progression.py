@@ -5,12 +5,18 @@ SAMPLE_SCALES = [
     {
         "root": "C",
         "scale_type": "major",
-        "expected": ["C", "D", "E", "F", "G", "A", "B"]
+        "expected": ("C", ["C", "D", "E", "F", "G", "A", "B"])
     },
     {
         "root": "B",
         "scale_type": "natural minor",
-        "expected": ["B", "C#", "D", "E", "F#", "G", "A"]
+        "expected": ("B", ["B", "C#", "D", "E", "F#", "G", "A"])
+    },
+    # C# major -> Db major
+    {
+        "root": "C#",
+        "scale_type": "major",
+        "expected": ("Db", ["Db", "Eb", "F", "Gb", "Ab", "Bb", "C"])
     },
 ]
 def test_get_scale():
@@ -149,6 +155,17 @@ SAMPLE_GENERATED_PROGRESSIONS = [
             {"chord": "Fdim", "roman": "ii°", "notes": "F G# B"}
         ]
     },
+    # A# minor -> Bb minor
+    {
+        "random_seed": 1,
+        "root": "A#",
+        "scale_type": "natural minor",
+        "triads_count": 1,
+        "sevenths_count": 0,
+        "expected": [
+            {"chord": "Cdim", "notes": "C Eb Gb", "roman": "ii°"}
+        ]
+    },
 ]
 def test_generate_progression():
     for sample in SAMPLE_GENERATED_PROGRESSIONS:
@@ -159,16 +176,30 @@ def test_generate_progression():
 
 SAMPLE_RANDOM_SEEDS = [
     {
-        "random_seed": 1,
+        "random_seed": 4,
         "triads_count": 1,
         "sevenths_count": 2,
         "expected": {
-            "scale": "D major",
-            "scale_notes": "D E F# G A B C#",
+            "scale": "G natural minor",
+            "scale_notes": "G A Bb C D Eb F",
             "progression": [
-                {"chord": "C#m7b5", "roman": "viiø", "notes": "C# E G B"},
-                {"chord": "A7", "roman": "V7", "notes": "A C# E G"},
-                {"chord": "Em", "roman": "ii", "notes": "E G B"}
+                {"chord": "Adim", "notes": "A C Eb", "roman": "ii°"},
+                {"chord": "BbM7", "notes": "Bb D F A", "roman": "IIIM7"},
+                {"chord": "Gm7", "notes": "G Bb D F", "roman": "i7"}
+            ]
+        }
+    },
+    # Gb major -> F# major
+    {
+        "root": "Gb",
+        "scale_type": "major",
+        "triads_count": 1,
+        "sevenths_count": 0,
+        "expected": {
+            "scale": "F# major",
+            "scale_notes": "F# G# A# B C# D# F",
+            "progression": [
+                {"chord": "B", "roman": "IV", "notes": "B D# F#"}
             ]
         }
     },
