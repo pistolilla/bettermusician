@@ -1,11 +1,26 @@
 const base_url = "https://la3du2tlph.execute-api.us-east-1.amazonaws.com/prod";
 
 function generate_progression() {
+    // reading inputs
+    var root = document.getElementById("root").value;
+    var scale = document.getElementById("scale").value;
+    var triads = document.getElementById("triads").value;
+    var sevenths = document.getElementById("sevenths").value;
+    // clear table
+    var table = document.getElementById("displayTable");
+    while (table.rows.length > 0) {
+        table.deleteRow(0);
+    }
     // api call
     axios({
         method: "POST",
         url: `${base_url}/progression/generate`,
-        data: {},
+        data: {
+            "root": (root == "") ? null : root,
+            "scale_type": (scale == "") ? null : scale,
+            "triads_count": (triads == "") ? null : Number(triads),
+            "sevenths_count": (sevenths == "") ? null : Number(sevenths)
+        },
     })
     .then(function(response) {
         console.log(response.data);

@@ -14,9 +14,30 @@
     <div class="m-3 content">
         <div class="jumbotron py-4">
             <div class="row mr-0">
-                <h3 id="title"></h3>
+                <div class="col-2">
+                    <h3 id="title"></h3>
+                    <p id="notes"></p>
+                </div>
+                <div class="col-3">
+                    <label for="root">Root:</label>
+                    <input type="text" id="root" class="form-control form-control-sm" style="width: 5em; display: inline;">
+                    <br/>
+                    <label for="scale">Scale:</label>
+                    <select class="form-control form-select" style="width: 10em; display: inline;" id="scale">
+                        <option value="" selected>(none)</option>
+                        <option>major</option>
+                        <option>natural minor</option>
+                    </select>
+                    <button type="button" class="btn btn-info btn-block btn mt-2" style="width: 12em; display: inline;" onclick="generate_progression()">Send</button>
+                </div>
+                <div class="col-4">
+                    <label for="triads">Triads:</label>
+                    <input type="text" id="triads" class="form-control form-control-sm" style="width: 5em; display: inline;" value="3">
+                    <br/>
+                    <label for="sevenths">Sevenths:</label>
+                    <input type="text" id="sevenths" class="form-control form-control-sm" style="width: 5em; display: inline;" value="1">
+                </div>
             </div>
-            <p id="notes"></p>
         </div>
         <div class="row">
             <div class="col-8">
