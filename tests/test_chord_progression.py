@@ -12,6 +12,11 @@ SAMPLE_SCALES = [
         "scale_type": "natural minor",
         "expected": ("B", ["B", "C#", "D", "E", "F#", "G", "A"])
     },
+    {
+        "root": "B",
+        "scale_type": "major",
+        "expected": ("B", ["B", "C#", "D#", "E", "F#", "G#", "A#"])
+    },
     # C# major -> Db major
     {
         "root": "C#",

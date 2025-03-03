@@ -9,7 +9,7 @@ def get_scale(root, scale_type):
     """Returns a scale given the root and type."""
     if scale_type == "major":
         root = {"C#": "Db", "D#": "Eb", "Gb": "F#", "G#": "Ab", "A#": "Bb"}.get(root, root)
-        if root in "C G D A E".split() or "#" in root:
+        if root in "C G D A E B".split() or "#" in root:
             notes = NOTES_SHARP
         else:
             notes = NOTES_FLAT
