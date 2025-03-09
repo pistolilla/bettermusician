@@ -13,7 +13,7 @@ def get_scale(root, scale_type):
             notes = NOTES_SHARP
         else:
             notes = NOTES_FLAT
-    elif scale_type == "natural minor":
+    elif scale_type in "minor,harmonic minor".split(","):
         root = {"Db": "C#", "Eb": "D#", "Gb": "F#", "Ab": "G#", "A#": "Bb"}.get(root, root)
         if root in "A E B".split() or "#" in root:
             notes = NOTES_SHARP
@@ -22,8 +22,8 @@ def get_scale(root, scale_type):
 
     scales = {
         "major": [0, 2, 4, 5, 7, 9, 11],
-        "natural minor": [0, 2, 3, 5, 7, 8, 10],
-        "melodic minor": [0, 2, 3, 5, 7, 9, 11],  # Ascending melodic minor
+        "minor": [0, 2, 3, 5, 7, 8, 10],
+        "harmonic minor": [0, 2, 3, 5, 7, 8, 11],
     }
     scale_notes = []
     for interval in scales[scale_type]:
@@ -70,7 +70,7 @@ def get_chord_name_and_roman(chord, scale):
     elif intervals[:2] == [3, 6]:
         chord_type = "dim"  # Diminished chord
         roman = roman_base.lower() + "°"
-    elif intervals[:2] == [4, 6]:
+    elif intervals[:2] == [4, 8]:
         chord_type = "aug"  # Augmented chord
         roman = roman_base.upper() + "+"
     else:
@@ -128,8 +128,8 @@ def random_progression(root=None, scale_type=None, triads_count=4, sevenths_coun
     if scale_type is None:
         scale_type = random.choice([
             "major",
-            "natural minor",
-            #"melodic minor"
+            "minor",
+            "harmonic minor",
         ])
     root, scale_notes = get_scale(root, scale_type)
     return {

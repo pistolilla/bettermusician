@@ -9,7 +9,7 @@ SAMPLE_SCALES = [
     },
     {
         "root": "B",
-        "scale_type": "natural minor",
+        "scale_type": "minor",
         "expected": ("B", ["B", "C#", "D", "E", "F#", "G", "A"])
     },
     {
@@ -39,6 +39,7 @@ SAMPLE_CHORDS = [
             [["C", "E", "G", "B"], ["D", "F", "A", "C"], ["E", "G", "B", "D"], ["F", "A", "C", "E"], ["G", "B", "D", "F"], ["A", "C", "E", "G"], ["B", "D", "F", "A"]]
         )
     },
+    # B minor
     {
         "scale": ["B", "C#", "D", "E", "F#", "G", "A"],
         "expected": (
@@ -46,6 +47,16 @@ SAMPLE_CHORDS = [
             [["B", "D", "F#"], ["C#", "E", "G"], ["D", "F#", "A"], ["E", "G", "B"], ["F#", "A", "C#"], ["G", "B", "D"], ["A", "C#", "E"]],
             # sevenths
             [["B", "D", "F#", "A"], ["C#", "E", "G", "B"], ["D", "F#", "A", "C#"], ["E", "G", "B", "D"], ["F#", "A", "C#", "E"], ["G", "B", "D", "F#"], ["A", "C#", "E", "G"]]
+        )
+    },
+    # B harmonic minor
+    {
+        "scale": ["B", "C#", "D", "E", "F#", "G", "A#"],
+        "expected": (
+            # triads
+            [["B", "D", "F#"], ["C#", "E", "G"], ["D", "F#", "A#"], ["E", "G", "B"], ["F#", "A#", "C#"], ["G", "B", "D"], ["A#", "C#", "E"]],
+            # sevenths
+            [["B", "D", "F#", "A#"], ["C#", "E", "G", "B"], ["D", "F#", "A#", "C#"], ["E", "G", "B", "D"], ["F#", "A#", "C#", "E"], ["G", "B", "D", "F#"], ["A#", "C#", "E", "G"]]
         )
     },
 ]
@@ -85,7 +96,7 @@ SAMPLE_CHORD_NAMES = [
             "notes": "A C E"
         }
     },
-    # E natural minor
+    # E minor
     {
         "chord": ["F#", "A", "C"],
         "scale": ["E", "F#", "G", "A", "Bb", "C", "D"],
@@ -95,7 +106,7 @@ SAMPLE_CHORD_NAMES = [
             "notes": "F# A C"
         }
     },
-    # G natural minor
+    # G minor
     {
         "chord": ["D", "F", "A"],
         "scale": ["G", "A", "A#", "C", "D", "D#", "F"],
@@ -105,9 +116,9 @@ SAMPLE_CHORD_NAMES = [
             "notes": "D F A"
         }
     },
-    # A# natural minor, half diminished
+    # A# minor
     {
-        "chord": ["C", "D#", "F#", "A#"],
+        "chord": ["C", "D#", "F#", "A#"], # half diminished
         "scale": ["A#", "C", "C#", "D#", "F", "F#", "G#"],
         "expected": {
             "chord": "Cm7b5",
@@ -140,7 +151,7 @@ SAMPLE_GENERATED_PROGRESSIONS = [
     {
         "random_seed": 42,
         "root": "G#",
-        "scale_type": "natural minor",
+        "scale_type": "minor",
         "triads_count": 1,
         "sevenths_count": 3,
         "expected": [
@@ -153,7 +164,7 @@ SAMPLE_GENERATED_PROGRESSIONS = [
     {
         "random_seed": 1,
         "root": "D#",
-        "scale_type": "natural minor",
+        "scale_type": "minor",
         "triads_count": 1,
         "sevenths_count": 0,
         "expected": [
@@ -164,11 +175,29 @@ SAMPLE_GENERATED_PROGRESSIONS = [
     {
         "random_seed": 1,
         "root": "A#",
-        "scale_type": "natural minor",
+        "scale_type": "minor",
         "triads_count": 1,
         "sevenths_count": 0,
         "expected": [
             {"chord": "Cdim", "notes": "C Eb Gb", "roman": "ii°"}
+        ]
+    },
+    {
+        "random_seed": 42,
+        "root": "B",
+        "scale_type": "harmonic minor",
+        "triads_count": 4,
+        "sevenths_count": 5,
+        "expected": [
+            {"chord": "C#m7b5", "roman": "iiø", "notes": "C# E G B"},
+            {"chord": "Bm", "roman": "i", "notes": "B D F#"},
+            {"chord": "C#m7b5", "roman": "iiø", "notes": "C# E G B"},
+            {"chord": "C#m7b5", "roman": "iiø", "notes": "C# E G B"},
+            {"chord": "G", "roman": "VI", "notes": "G B D"},
+            {"chord": "G", "roman": "VI", "notes": "G B D"},
+            {"chord": "DaugM7", "roman": "III+M7", "notes": "D F# A# C#"},
+            {"chord": "GM7", "roman": "VIM7", "notes": "G B D F#"},
+            {"chord": "Bm", "roman": "i", "notes": "B D F#"}
         ]
     },
 ]
@@ -185,7 +214,7 @@ SAMPLE_RANDOM_SEEDS = [
         "triads_count": 1,
         "sevenths_count": 2,
         "expected": {
-            "scale": "G natural minor",
+            "scale": "G minor",
             "scale_notes": "G A Bb C D Eb F",
             "progression": [
                 {"chord": "Adim", "notes": "A C Eb", "roman": "ii°"},
