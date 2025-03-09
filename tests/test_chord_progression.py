@@ -126,6 +126,16 @@ SAMPLE_CHORD_NAMES = [
             "notes": "C D# F# A#"
         }
     },
+    # A harmonic minor
+    {
+        "chord": ["G#", "B", "D", "F"], # fully diminished
+        "scale": ["A", "B", "C", "D", "E", "F", "G#"],
+        "expected": {
+            "chord": "G#dim7",
+            "roman": "vii°7",
+            "notes": "G# B D F"
+        }
+    },
 ]
 def test_get_chord_name_and_roman():
     for sample in SAMPLE_CHORD_NAMES:
