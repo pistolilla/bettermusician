@@ -1,0 +1,219 @@
+table {
+    background: #f3f3f3;
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%
+}
+
+table,
+td {
+    border: 1px solid #d9d9d9
+}
+
+td,
+th {
+    padding: 5px 10px
+}
+
+th {
+    text-align: left
+}
+
+.chord {
+    cursor: pointer;
+    transition-duration: .4s;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+.chord:hover {
+    background-color: #fff
+}
+
+.chord-active {
+    color: #fff
+}
+
+.chord-active,
+.chord-active:hover {
+    background-color: #4a4a4a
+}
+
+.harmony-table {
+    margin-top: 1rem
+}
+
+.scale-degrees {
+    table-layout: fixed
+}
+
+.scale-degrees td {
+    padding: 10px 0;
+    text-align: center;
+    vertical-align: middle
+}
+
+.modes-row {
+    font-size: 12px
+}
+
+.scale-degrees tbody span {
+    font-family: Opus Chords Std;
+    padding: 0 1px
+}
+
+.harmony-hover {
+    cursor: pointer;
+    transition: .3s
+}
+
+.harmony-hover:hover {
+    fill: #fff;
+    opacity: .3
+}
+
+@media only screen and (min-width:991px) and (max-width:1024px) {
+    .modes-row {
+        display: none
+    }
+}
+
+@media (max-width:650px) {
+    .modes-row {
+        display: none
+    }
+}
+
+.buttons-module {
+    display: flex;
+    padding-bottom: 2rem
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-start;
+    margin: 13px 0 0;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    width: 100%
+}
+
+button {
+    background: #f8f8f8;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    color: #000;
+    cursor: pointer;
+    font-family: Open Sans, sans-serif;
+    font-size: 14px;
+    margin-right: 8px;
+    padding: 8px 14px;
+    transition: .25s ease;
+    white-space: nowrap;
+    z-index: 1
+}
+
+button.active {
+    background-color: #e4e4e4;
+    border-color: #dadada
+}
+
+button:hover {
+    border-color: #dadada;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2)
+}
+
+.dropdown {
+    display: inline-block;
+    position: relative
+}
+
+.dropdown ul {
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, .2);
+    display: none;
+    left: 1px;
+    min-width: 90px;
+    padding-bottom: 0;
+    position: absolute;
+    z-index: 11
+}
+
+.dropdown ul.active {
+    display: block
+}
+
+.dropdown ul li:first-child {
+    border-radius: 4px 4px 0 0
+}
+
+.dropdown ul li:last-child {
+    border-radius: 0 0 4px 4px
+}
+
+.dropdown ul li {
+    cursor: pointer;
+    font-family: Open Sans, sans-serif;
+    font-size: 13px;
+    padding: 10px 20px 10px 14px;
+    text-align: left;
+    white-space: nowrap
+}
+
+.dropdown ul li:hover {
+    background-color: #e1e1e1
+}
+
+.dropdown ul li.active {
+    background-color: #eee
+}
+
+@font-face {
+    font-family: Helsinki Std;
+    src: url(../fonts/HelsinkiStd.otf) format("truetype")
+}
+
+@font-face {
+    font-family: Opus Chords Std;
+    src: url(../fonts/OpusChordsStd.otf) format("truetype");
+}
+
+.circle-of-fifths svg {
+    user-select: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none
+}
+
+.inner-circle {
+    font-size: 8px;
+    font-weight: 600
+}
+
+.outer-circle {
+    font-size: 11px;
+    font-weight: 600
+}
+
+.clef-sign {
+    font-family: Helsinki Std;
+    font-size: 2.8rem
+}
+
+.accidental-sign {
+    font-family: Helsinki Std;
+    font-size: 3rem
+}
+
+.--accidentals {
+    font-family: Opus Chords Std
+}
+
+.circle-of-fifths iframe {
+    height: 1000px;
+    width: 700px
+}
