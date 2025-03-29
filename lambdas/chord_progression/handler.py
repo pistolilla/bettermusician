@@ -98,8 +98,8 @@ def get_chord_name_and_roman(chord, scale):
                 chord_type += "7"
                 roman += "7"
         elif interval == 11:
-            chord_type += "M7"
-            roman += "M7"
+            chord_type += "maj7"
+            roman += "∆"
     return {
         "chord": root + chord_type,
         "roman": roman,
