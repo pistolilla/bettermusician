@@ -197,10 +197,13 @@ SAMPLE_GENERATED_PROGRESSIONS = [
         "scale_type": "minor",
         "triads_count": 1,
         "sevenths_count": 0,
-        "bars": 1,
+        "bars": 2,
         "expected": [
             [
                 {"chord": "Cdim", "notes": "C Eb Gb", "roman": "ii°"}
+            ],
+            [
+                {"chord": "Fm", "roman": "v", "notes": "F Ab C"}
             ]
         ]
     },
