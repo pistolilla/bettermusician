@@ -4,6 +4,7 @@ function generate_progression() {
     // reading inputs
     var root = document.getElementById("root").value;
     var scale = document.getElementById("scale").value;
+    var bars = document.getElementById("bars").value;
     var triads = document.getElementById("triads").value;
     var sevenths = document.getElementById("sevenths").value;
     // clear table
@@ -18,6 +19,7 @@ function generate_progression() {
         data: {
             "root": (root == "") ? null : root,
             "scale_type": (scale == "") ? null : scale,
+            "bars": Number(bars),
             "triads_count": (triads == "") ? null : Number(triads),
             "sevenths_count": (sevenths == "") ? null : Number(sevenths)
         },
@@ -30,14 +32,20 @@ function generate_progression() {
         notes.innerHTML = response.data.scale_notes;
 
         var table = document.getElementById("displayTable");
-        response.data.progression.forEach(item => {
+        response.data.progression.forEach(bar => {
+            bar.forEach(item => {
+                let row = table.insertRow();
+                let chord = row.insertCell(0);
+                chord.innerHTML = item.chord;
+                let roman = row.insertCell(1);
+                roman.innerHTML = item.roman;
+                let notes = row.insertCell(2);
+                notes.innerHTML = item.notes;
+            });
             let row = table.insertRow();
-            let chord = row.insertCell(0);
-            chord.innerHTML = item.chord;
-            let roman = row.insertCell(1);
-            roman.innerHTML = item.roman;
-            let notes = row.insertCell(2);
-            notes.innerHTML = item.notes;
+            let separator = row.insertCell(0);
+            separator.colSpan = 3;
+            separator.innerHTML = "<hr />";
         });
     });
 }
