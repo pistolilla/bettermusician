@@ -106,24 +106,27 @@ def get_chord_name_and_roman(chord, scale):
         "notes": " ".join(chord)
     }
 
-def generate_progression(root, scale_type, triads_count, sevenths_count, random_seed=None):
+def generate_progression(root, scale_type, triads_count, sevenths_count, bars, random_seed):
     if random_seed is not None:
         random.seed(random_seed)
     _, scale = get_scale(root, scale_type)
     triads, sevenths = get_chords_from_scale(scale)
 
-    progression = []
-    # take n triads
-    for _ in range(triads_count):
-        chord = random.choice(triads)
-        progression.append(get_chord_name_and_roman(chord, scale))
-    for _ in range(sevenths_count):
-        chord = random.choice(sevenths)
-        progression.append(get_chord_name_and_roman(chord, scale))
-    random.shuffle(progression)
-    return progression
+    result = []
+    for _ in range(bars):
+        progression = []
+        # take n triads
+        for _ in range(triads_count):
+            chord = random.choice(triads)
+            progression.append(get_chord_name_and_roman(chord, scale))
+        for _ in range(sevenths_count):
+            chord = random.choice(sevenths)
+            progression.append(get_chord_name_and_roman(chord, scale))
+        random.shuffle(progression)
+        result.append(progression)
+    return result
 
-def random_progression(root=None, scale_type=None, triads_count=4, sevenths_count=1, random_seed=None):
+def random_progression(root=None, scale_type=None, triads_count=4, sevenths_count=1, bars=1, random_seed=None):
     # TODO: randomly return sharps or flats
     if random_seed is not None:
         random.seed(random_seed)
@@ -139,7 +142,7 @@ def random_progression(root=None, scale_type=None, triads_count=4, sevenths_coun
     return {
         "scale": f"{root} {scale_type}",
         "scale_notes": " ".join(scale_notes),
-        "progression": generate_progression(root, scale_type, triads_count, sevenths_count, random_seed)
+        "progression": generate_progression(root, scale_type, triads_count, sevenths_count, bars, random_seed)
     }
 
 def handler(event, *args):
