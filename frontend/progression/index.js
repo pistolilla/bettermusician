@@ -26,6 +26,7 @@ function generate_progression() {
     })
     .then(function(response) {
         console.log(response.data);
+        // populating table
         var title = document.getElementById("title");
         title.innerHTML = response.data.scale;
         var notes = document.getElementById("notes");
@@ -47,6 +48,8 @@ function generate_progression() {
             separator.colSpan = 3;
             separator.innerHTML = "<hr />";
         });
+        // populating text
+        document.getElementById("mth").value = response.data.text;
     });
 }
 function initialize() {
