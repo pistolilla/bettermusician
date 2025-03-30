@@ -142,10 +142,17 @@ def random_progression(root=None, scale_type=None, triads_count=4, sevenths_coun
             "harmonic minor",
         ])
     root, scale_notes = get_scale(root, scale_type)
+    progression_data = generate_progression(root, scale_type, triads_count, sevenths_count, bars, random_seed)
+    text = ""
+    for bar in progression_data:
+        bar_text = "|".join([chord["chord"] for chord in bar])
+        text += f"|{bar_text}|\n"
+
     return {
         "scale": f"{root} {scale_type}",
         "scale_notes": " ".join(scale_notes),
-        "progression": generate_progression(root, scale_type, triads_count, sevenths_count, bars, random_seed)
+        "progression": progression_data,
+        "text": text.strip() #remove trailing newline
     }
 
 def handler(event, *args):

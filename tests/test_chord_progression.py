@@ -246,7 +246,8 @@ SAMPLE_RANDOM_SEEDS = [
                     {"chord": "Dm7", "roman": "v7", "notes": "D F A C"},
                     {"chord": "Gm7", "roman": "i7", "notes": "G Bb D F"}
                 ]
-            ]
+            ],
+            "text": "|Adim|Dm7|Gm7|"
         }
     },
     # Gb major -> F# major
@@ -279,7 +280,10 @@ SAMPLE_RANDOM_SEEDS = [
                     {"chord": "D#m", "roman": "vi", "notes": "D# F# A#"},
                     {"chord": "G#m", "roman": "ii", "notes": "G# B D#"}
                 ]
-            ]
+            ],
+            "text": """|G#m|C#|D#m|G#m7|
+|G#m|C#7|D#m|G#m|
+|G#m7|C#|D#m|G#m|"""
         }
     },
 ]
