@@ -8,49 +8,64 @@
     <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <script src="//cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
 
+    <!-- css -->
+    <style>
+        td {
+            padding: 0.3em !important;
+        }
+    </style>
+
     <title>Chord progression</title>
 </head>
 <body>
     <div class="m-3 content">
-        <div class="jumbotron py-4">
-            <div class="row mr-0">
-                <div class="col-2">
-                    <h3 id="title"></h3>
-                    <p id="notes"></p>
-                </div>
-                <div class="col-3">
-                    <label for="root">Root:</label>
-                    <input type="text" id="root" class="form-control form-control-sm" style="width: 5em; display: inline;">
-                    <br/>
-                    <label for="scale">Scale:</label>
-                    <select class="form-control form-select" style="width: 10em; display: inline;" id="scale">
-                        <option value="" selected>(none)</option>
-                        <option>major</option>
-                        <option>minor</option>
-                        <option>harmonic minor</option>
-                    </select>
-                    <button type="button" class="btn btn-info btn-block btn mt-2" style="width: 12em; display: inline;" onclick="generate_progression()">Send</button>
-                </div>
-                <div class="col-4">
-                    <label for="bars">Bars:</label>
-                    <input type="text" id="bars" class="form-control form-control-sm" style="width: 5em; display: inline;" value="1">
-                    <br/>
-                    <label for="triads">Triads:</label>
-                    <input type="text" id="triads" class="form-control form-control-sm" style="width: 5em; display: inline;" value="3">
-                    <br/>
-                    <label for="sevenths">Sevenths:</label>
-                    <input type="text" id="sevenths" class="form-control form-control-sm" style="width: 5em; display: inline;" value="2">
-                </div>
-            </div>
-        </div>
-        <div class="row">
+        <div class="row mr-0">
+            <!-- left panel -->
             <div class="col-8">
-                <table id="displayTable" class="table table-hover mt-3"></table>
+                <!-- controls -->
+                <div class="row jumbotron py-4">
+                    <div class="col-4">
+                        <h3 id="title"></h3>
+                        <p id="notes"></p>
+                    </div>
+                    <div class="col-4">
+                        <label for="root">Root:</label>
+                        <input type="text" id="root" class="form-control form-control-sm" style="width: 5em; display: inline;">
+                        <br/>
+                        <label for="scale">Scale:</label>
+                        <select class="form-control form-select" style="width: 10em; display: inline;" id="scale">
+                            <option value="" selected>(none)</option>
+                            <option>major</option>
+                            <option>minor</option>
+                            <option>harmonic minor</option>
+                        </select>
+                        <button type="button" class="btn btn-info btn-block btn mt-2" style="width: 12em; display: inline;" onclick="generate_progression()">Send</button>
+                    </div>
+                    <div class="col-4">
+                        <label for="bars">Bars:</label>
+                        <input type="text" id="bars" class="form-control form-control-sm" style="width: 5em; display: inline;" value="1">
+                        <br/>
+                        <label for="triads">Triads:</label>
+                        <input type="text" id="triads" class="form-control form-control-sm" style="width: 5em; display: inline;" value="3">
+                        <br/>
+                        <label for="sevenths">Sevenths:</label>
+                        <input type="text" id="sevenths" class="form-control form-control-sm" style="width: 5em; display: inline;" value="2">
+                    </div>
+                </div>
+                <!-- circle, mth -->
+                <div class="row">
+                    <div class="col-6">
+                        <img src="img/circle_of_fifths.png" alt="circle of fifths" style="width: 100%;"/>
+                    </div>
+                    <div class="col-5">
+                        <label for="mth">Mapping Tonal Harmony:</label>
+                        <textarea class="form-control mt-0" rows="5" id="mth"></textarea>
+                    </div>
+                </div>
             </div>
+            <!-- table -->
             <div class="col-4">
-                <img src="img/circle_of_fifths.png" alt="circle of fifths" style="width: 100%;"/>
-                <label class="mt-4" for="mth">Mapping Tonal Harmony:</label>
-                <textarea class="form-control mt-0" rows="5" id="mth"></textarea>
+                <table id="displayTable" class="table table-hover mt-3"></table>
             </div>
         </div>
     </div>

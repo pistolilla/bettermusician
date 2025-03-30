@@ -46,7 +46,7 @@ function generate_progression() {
             let row = table.insertRow();
             let separator = row.insertCell(0);
             separator.colSpan = 3;
-            separator.innerHTML = "<hr />";
+            separator.innerHTML = '<hr class="my-1" />';
         });
         // populating text
         document.getElementById("mth").value = response.data.text;
