@@ -32,32 +32,26 @@ def test_get_scale():
 SAMPLE_CHORDS = [
     {
         "scale": ["C", "D", "E", "F", "G", "A", "B"],
-        "expected": (
-            # triads
-            [["C", "E", "G"], ["D", "F", "A"], ["E", "G", "B"], ["F", "A", "C"], ["G", "B", "D"], ["A", "C", "E"], ["B", "D", "F"]],
-            # sevenths
-            [["C", "E", "G", "B"], ["D", "F", "A", "C"], ["E", "G", "B", "D"], ["F", "A", "C", "E"], ["G", "B", "D", "F"], ["A", "C", "E", "G"], ["B", "D", "F", "A"]]
-        )
+        "expected": {
+            "triads": [["C", "E", "G"], ["D", "F", "A"], ["E", "G", "B"], ["F", "A", "C"], ["G", "B", "D"], ["A", "C", "E"], ["B", "D", "F"]],
+            "sevenths": [["C", "E", "G", "B"], ["D", "F", "A", "C"], ["E", "G", "B", "D"], ["F", "A", "C", "E"], ["G", "B", "D", "F"], ["A", "C", "E", "G"], ["B", "D", "F", "A"]]
+        }
     },
     # B minor
     {
         "scale": ["B", "C#", "D", "E", "F#", "G", "A"],
-        "expected": (
-            # triads
-            [["B", "D", "F#"], ["C#", "E", "G"], ["D", "F#", "A"], ["E", "G", "B"], ["F#", "A", "C#"], ["G", "B", "D"], ["A", "C#", "E"]],
-            # sevenths
-            [["B", "D", "F#", "A"], ["C#", "E", "G", "B"], ["D", "F#", "A", "C#"], ["E", "G", "B", "D"], ["F#", "A", "C#", "E"], ["G", "B", "D", "F#"], ["A", "C#", "E", "G"]]
-        )
+        "expected": {
+            "triads": [["B", "D", "F#"], ["C#", "E", "G"], ["D", "F#", "A"], ["E", "G", "B"], ["F#", "A", "C#"], ["G", "B", "D"], ["A", "C#", "E"]],
+            "sevenths": [["B", "D", "F#", "A"], ["C#", "E", "G", "B"], ["D", "F#", "A", "C#"], ["E", "G", "B", "D"], ["F#", "A", "C#", "E"], ["G", "B", "D", "F#"], ["A", "C#", "E", "G"]]
+        }
     },
     # B harmonic minor
     {
         "scale": ["B", "C#", "D", "E", "F#", "G", "A#"],
-        "expected": (
-            # triads
-            [["B", "D", "F#"], ["C#", "E", "G"], ["D", "F#", "A#"], ["E", "G", "B"], ["F#", "A#", "C#"], ["G", "B", "D"], ["A#", "C#", "E"]],
-            # sevenths
-            [["B", "D", "F#", "A#"], ["C#", "E", "G", "B"], ["D", "F#", "A#", "C#"], ["E", "G", "B", "D"], ["F#", "A#", "C#", "E"], ["G", "B", "D", "F#"], ["A#", "C#", "E", "G"]]
-        )
+        "expected": {
+            "triads": [["B", "D", "F#"], ["C#", "E", "G"], ["D", "F#", "A#"], ["E", "G", "B"], ["F#", "A#", "C#"], ["G", "B", "D"], ["A#", "C#", "E"]],
+            "sevenths": [["B", "D", "F#", "A#"], ["C#", "E", "G", "B"], ["D", "F#", "A#", "C#"], ["E", "G", "B", "D"], ["F#", "A#", "C#", "E"], ["G", "B", "D", "F#"], ["A#", "C#", "E", "G"]]
+        }
     },
 ]
 def test_get_chords_from_scale():
@@ -154,10 +148,10 @@ SAMPLE_GENERATED_PROGRESSIONS = [
         "expected": [
             [
                 {"chord": "Am", "roman": "vi", "notes": "A C E"},
-                {"chord": "C", "roman": "I", "notes": "C E G"},
-                {"chord": "Am", "roman": "vi", "notes": "A C E"},
-                {"chord": "Em7", "roman": "iii7", "notes": "E G B D"},
-                {"chord": "C", "roman": "I", "notes": "C E G"}
+                {"chord": "Dm", "roman": "ii", "notes": "D F A"},
+                {"chord": "G", "roman": "V", "notes": "G B D"},
+                {"chord": "Bm7b5", "roman": "viiø", "notes": "B D F A"},
+                {"chord": "G", "roman": "V", "notes": "G B D"}
             ]
         ]
     },
@@ -170,10 +164,10 @@ SAMPLE_GENERATED_PROGRESSIONS = [
         "bars": 1,
         "expected": [
             [
-                {"chord": "G#m7", "roman": "i7", "notes": "G# B D# F#"},
                 {"chord": "Emaj7", "roman": "VI∆", "notes": "E G# B D#"},
-                {"chord": "E", "roman": "VI", "notes": "E G# B"},
-                {"chord": "G#m7", "roman": "i7", "notes": "G# B D# F#"}
+                {"chord": "G#m7", "roman": "i7", "notes": "G# B D# F#"},
+                {"chord": "A#dim", "roman": "ii°", "notes": "A# C# E"},
+                {"chord": "F#7", "roman": "VII7", "notes": "F# A# C# E"}
             ]
         ]
     },
@@ -196,14 +190,16 @@ SAMPLE_GENERATED_PROGRESSIONS = [
         "root": "A#",
         "scale_type": "minor",
         "triads_count": 1,
-        "sevenths_count": 0,
+        "sevenths_count": 1,
         "bars": 2,
         "expected": [
             [
-                {"chord": "Cdim", "notes": "C Eb Gb", "roman": "ii°"}
+                {"chord": "Cdim", "roman": "ii°", "notes": "C Eb Gb"},
+                {"chord": "Ab7", "roman": "VII7", "notes": "Ab C Eb Gb"}
             ],
             [
-                {"chord": "Fm", "roman": "v", "notes": "F Ab C"}
+                {"chord": "Cm7b5", "roman": "iiø", "notes": "C Eb Gb Bb"},
+                {"chord": "Ab", "roman": "VII", "notes": "Ab C Eb"}
             ]
         ]
     },
@@ -216,15 +212,15 @@ SAMPLE_GENERATED_PROGRESSIONS = [
         "bars": 1,
         "expected": [
             [
-                {"chord": "C#m7b5", "roman": "iiø", "notes": "C# E G B"},
-                {"chord": "Bm", "roman": "i", "notes": "B D F#"},
-                {"chord": "C#m7b5", "roman": "iiø", "notes": "C# E G B"},
-                {"chord": "C#m7b5", "roman": "iiø", "notes": "C# E G B"},
-                {"chord": "G", "roman": "VI", "notes": "G B D"},
-                {"chord": "G", "roman": "VI", "notes": "G B D"},
-                {"chord": "Daugmaj7", "roman": "III+∆", "notes": "D F# A# C#"},
                 {"chord": "Gmaj7", "roman": "VI∆", "notes": "G B D F#"},
-                {"chord": "Bm", "roman": "i", "notes": "B D F#"}
+                {"chord": "C#dim", "roman": "ii°", "notes": "C# E G"},
+                {"chord": "F#7", "roman": "V7", "notes": "F# A# C# E"},
+                {"chord": "A#dim7", "roman": "vii°7", "notes": "A# C# E G"},
+                {"chord": "F#", "roman": "V", "notes": "F# A# C#"},
+                {"chord": "Bm", "roman": "i", "notes": "B D F#"},
+                {"chord": "Daugmaj7", "roman": "III+∆", "notes": "D F# A# C#"},
+                {"chord": "C#dim", "roman": "ii°", "notes": "C# E G"},
+                {"chord": "F#7", "roman": "V7", "notes": "F# A# C# E"}
             ]
         ]
     },
@@ -246,9 +242,9 @@ SAMPLE_RANDOM_SEEDS = [
             "scale_notes": "G A Bb C D Eb F",
             "progression": [
                 [
-                    {"chord": "Adim", "notes": "A C Eb", "roman": "ii°"},
-                    {"chord": "Bbmaj7", "notes": "Bb D F A", "roman": "III∆"},
-                    {"chord": "Gm7", "notes": "G Bb D F", "roman": "i7"}
+                    {"chord": "Adim", "roman": "ii°", "notes": "A C Eb"},
+                    {"chord": "Dm7", "roman": "v7", "notes": "D F A C"},
+                    {"chord": "Gm7", "roman": "i7", "notes": "G Bb D F"}
                 ]
             ]
         }
@@ -258,14 +254,30 @@ SAMPLE_RANDOM_SEEDS = [
         "random_seed": 1,
         "root": "Gb",
         "scale_type": "major",
-        "triads_count": 1,
-        "sevenths_count": 0,
+        "bars": 3,
+        "triads_count": 3,
+        "sevenths_count": 1,
         "expected": {
             "scale": "F# major",
             "scale_notes": "F# G# A# B C# D# F",
             "progression": [
                 [
-                    {"chord": "G#m", "notes": "G# B D#", "roman": "ii"}
+                    {"chord": "G#m", "roman": "ii", "notes": "G# B D#"},
+                    {"chord": "C#", "roman": "V", "notes": "C# F G#"},
+                    {"chord": "D#m", "roman": "vi", "notes": "D# F# A#"},
+                    {"chord": "G#m7", "roman": "ii7", "notes": "G# B D# F#"}
+                ],
+                [
+                    {"chord": "G#m", "roman": "ii", "notes": "G# B D#"},
+                    {"chord": "C#7", "roman": "V7", "notes": "C# F G# B"},
+                    {"chord": "D#m", "roman": "vi", "notes": "D# F# A#"},
+                    {"chord": "G#m", "roman": "ii", "notes": "G# B D#"}
+                ],
+                [
+                    {"chord": "G#m7", "roman": "ii7", "notes": "G# B D# F#"},
+                    {"chord": "C#", "roman": "V", "notes": "C# F G#"},
+                    {"chord": "D#m", "roman": "vi", "notes": "D# F# A#"},
+                    {"chord": "G#m", "roman": "ii", "notes": "G# B D#"}
                 ]
             ]
         }

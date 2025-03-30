@@ -2,6 +2,8 @@ import random
 import json
 from http import HTTPStatus
 
+from transitions import random_sequence
+
 NOTES_SHARP = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
 NOTES_FLAT  = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
 
@@ -42,7 +44,10 @@ def get_chords_from_scale(scale):
         triads.append([root, third, fifth])
         seventh = scale[(i + 6) % len(scale)]  # for 7th chords
         sevenths.append([root, third, fifth, seventh])
-    return triads, sevenths
+    return {
+        "triads": triads,
+        "sevenths": sevenths
+    }
 
 def get_chord_name_and_roman(chord, scale):
     root = chord[0]
@@ -110,19 +115,17 @@ def generate_progression(root, scale_type, triads_count, sevenths_count, bars, r
     if random_seed is not None:
         random.seed(random_seed)
     _, scale = get_scale(root, scale_type)
-    triads, sevenths = get_chords_from_scale(scale)
-
+    # fetching all possible triads and sevents
+    pool = get_chords_from_scale(scale)
+    # chord sequence is the same for all bars
+    sequence = random_sequence(scale_type, triads_count + sevenths_count)
     result = []
     for _ in range(bars):
-        progression = []
-        # take n triads
-        for _ in range(triads_count):
-            chord = random.choice(triads)
-            progression.append(get_chord_name_and_roman(chord, scale))
-        for _ in range(sevenths_count):
-            chord = random.choice(sevenths)
-            progression.append(get_chord_name_and_roman(chord, scale))
-        random.shuffle(progression)
+        # shuffling triads and sevenths order for each bar
+        colors = ["triads"] * triads_count + ["sevenths"] * sevenths_count
+        # creates different orders each time even with fixed random_seed
+        random.shuffle(colors)
+        progression = [get_chord_name_and_roman(pool[c][i], scale) for c, i in zip(colors, sequence)]
         result.append(progression)
     return result
 
