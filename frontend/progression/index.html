@@ -58,7 +58,14 @@
                 <!-- circle, mth -->
                 <div class="row">
                     <div class="col-6">
-                        <img src="img/circle_of_fifths.png" alt="circle of fifths" style="width: 100%;"/>
+                        <div style="position: relative; width: 100%;">
+                            <img id="circleImg" src="img/circle_of_fifths.png" alt="circle of fifths" style="width: 100%; display: block;"/>
+                            <canvas id="drawCanvas" style="position: absolute; left: 0; top: 0; pointer-events: none;"></canvas>
+                        </div>
+                        <div class="mt-2">
+                            <button id="drawBtn" class="btn btn-sm btn-info">Draw Line</button>
+                            <button id="eraseBtn" class="btn btn-sm btn-outline-info">Erase All</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -71,5 +78,6 @@
         </div>
     </div>
     <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="drawing.js"></script>
 </body>
 </html>
