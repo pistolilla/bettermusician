@@ -37,9 +37,11 @@ function generate_progression() {
         var table = document.getElementById("displayTable");
         response.data.progression.forEach(bar => {
             bar.forEach(item => {
+                // highlighting the trailing seventh notation: 7, maj7, m7b5
+                chord_html = item.chord.replace(/(7|maj7|m7b5)$/g, '<span class="highlight">$1</span>');
                 let row = table.insertRow();
                 let chord = row.insertCell(0);
-                chord.innerHTML = item.chord;
+                chord.innerHTML = chord_html;
                 let roman = row.insertCell(1);
                 roman.innerHTML = item.roman;
                 let notes = row.insertCell(2);
