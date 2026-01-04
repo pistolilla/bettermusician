@@ -159,6 +159,7 @@ SAMPLE_GENERATED_PROGRESSIONS = [
         "random_seed": 42,
         "root": "G#",
         "scale_type": "minor",
+        "start": None,
         "triads_count": 1,
         "sevenths_count": 3,
         "bars": 1,
@@ -171,10 +172,29 @@ SAMPLE_GENERATED_PROGRESSIONS = [
             ]
         ]
     },
+    # forcing start on root chord then seventh
     {
-        "random_seed": 1,
+        "random_seed": 42,
+        "root": "G#",
+        "scale_type": "minor",
+        "start": "1, 7",
+        "triads_count": 1,
+        "sevenths_count": 3,
+        "bars": 1,
+        "expected": [
+            [
+                {"chord": "G#m7", "roman": "i7", "notes": "G# B D# F#"},
+                {"chord": "F#7", "roman": "VII7", "notes": "F# A# C# E"},
+                {"chord": "G#m", "roman": "i", "notes": "G# B D#"},
+                {"chord": "A#m7b5", "roman": "iiø", "notes": "A# C# E G#"}
+            ]
+        ]
+    },
+    # Forcing start on 2nd chord
+    {
         "root": "D#",
         "scale_type": "minor",
+        "start": 2,
         "triads_count": 1,
         "sevenths_count": 0,
         "bars": 1,

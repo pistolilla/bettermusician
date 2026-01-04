@@ -30,14 +30,16 @@ SEQUENCES = {
     },
 }
 
-def random_sequence(scale_type, size, seed:int=None, random_seed=None):
+def random_sequence(scale_type, size, start=None, random_seed=None):
     if random_seed is not None:
         random.seed(random_seed)
-    if seed is None:
-        seed = random.randint(1, 7)
-    result = [seed]
+    if start is None:
+        result = [random.randint(1, 7)]
+    else:
+        # splitting and trimming
+        result = list(map(lambda x: int(x), str(start).split(",")))
     while len(result) <= size:
-        previous = str(result[-1])
-        current = random.choice(SEQUENCES[scale_type][previous].split())
+        last = str(result[-1])
+        current = random.choice(SEQUENCES[scale_type][last].split())
         result.append(int(current))
     return list(map(lambda x: x-1, result))

@@ -5,7 +5,7 @@ SAMPLE_SEEDS = [
         "random_seed": 1,
         "scale_type": "major",
         "size": 4,
-        "seed": 1,
+        "start": 1,
         "expected": [0, 2, 5, 1, 6]
     },
     {

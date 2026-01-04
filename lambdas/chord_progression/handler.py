@@ -111,28 +111,28 @@ def get_chord_name_and_roman(chord, scale):
         "notes": " ".join(chord)
     }
 
-def generate_progression(root, scale_type, triads_count, sevenths_count, bars, random_seed):
-    if random_seed is not None:
-        random.seed(random_seed)
+def generate_progression(root, scale_type, triads_count, sevenths_count, bars, **kwargs):
+    if kwargs.get("random_seed"):
+        random.seed(kwargs["random_seed"])
     _, scale = get_scale(root, scale_type)
     # fetching all possible triads and sevents
     pool = get_chords_from_scale(scale)
     # chord sequence is the same for all bars
-    sequence = random_sequence(scale_type, triads_count + sevenths_count)
+    sequence = random_sequence(scale_type, triads_count + sevenths_count, **kwargs)
     result = []
     for _ in range(bars):
         # shuffling triads and sevenths order for each bar
         colors = ["triads"] * triads_count + ["sevenths"] * sevenths_count
-        # creates different orders each time even with fixed random_seed
+        # creates different orders each time even with fixed random seed
         random.shuffle(colors)
         progression = [get_chord_name_and_roman(pool[c][i], scale) for c, i in zip(colors, sequence)]
         result.append(progression)
     return result
 
-def random_progression(root=None, scale_type=None, triads_count=4, sevenths_count=1, bars=1, random_seed=None):
-    # TODO: randomly return sharps or flats
-    if random_seed is not None:
-        random.seed(random_seed)
+def random_progression(root=None, scale_type=None, triads_count=4, sevenths_count=1, bars=1, **kwargs):
+    # TODO: randomly return notation in sharps or flats
+    if kwargs.get("random_seed"):
+        random.seed(kwargs["random_seed"])
     if root is None:
         root = random.choice(NOTES_SHARP + NOTES_FLAT)
     if scale_type is None:
@@ -142,7 +142,7 @@ def random_progression(root=None, scale_type=None, triads_count=4, sevenths_coun
             "harmonic minor",
         ])
     root, scale_notes = get_scale(root, scale_type)
-    progression_data = generate_progression(root, scale_type, triads_count, sevenths_count, bars, random_seed)
+    progression_data = generate_progression(root, scale_type, triads_count, sevenths_count, bars, **kwargs)
     text = ""
     for bar in progression_data:
         bar_text = "|".join([chord["chord"] for chord in bar])
