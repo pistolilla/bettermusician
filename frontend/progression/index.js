@@ -4,6 +4,7 @@ function generate_progression() {
     // reading inputs
     var root = document.getElementById("root").value;
     var scale = document.getElementById("scale").value;
+    var start = document.getElementById("start").value;
     var bars = document.getElementById("bars").value;
     var triads = document.getElementById("triads").value;
     var sevenths = document.getElementById("sevenths").value;
@@ -19,6 +20,7 @@ function generate_progression() {
         data: {
             "root": (root == "") ? null : root,
             "scale_type": (scale == "") ? null : scale,
+            "start": (start == "") ? null : start,
             "bars": Number(bars),
             "triads_count": (triads == "") ? null : Number(triads),
             "sevenths_count": (sevenths == "") ? null : Number(sevenths)

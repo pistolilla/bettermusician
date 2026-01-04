@@ -30,25 +30,28 @@
                     </div>
                     <div class="col-4">
                         <label for="root">Root:</label>
-                        <input type="text" id="root" class="form-control form-control-sm" style="width: 5em; display: inline;">
+                        <input type="text" id="root" class="form-control form-control-sm" style="width: 5em; display: inline;" placeholder="e.g. Bb">
                         <br/>
                         <label for="scale">Scale:</label>
-                        <select class="form-control form-select" style="width: 10em; display: inline;" id="scale">
+                        <select class="form-control form-select" style="width: 10em; height: 2em; display: inline;" id="scale">
                             <option value="" selected>(none)</option>
                             <option>major</option>
                             <option>minor</option>
                             <option>harmonic minor</option>
                         </select>
+                        <br/>
+                        <label for="start">Start:</label>
+                        <input type="text" id="start" class="form-control form-control-sm" style="width: 10em; display: inline;" placeholder="e.g. 2, 5, 1">
                         <button type="button" class="btn btn-info btn-block btn mt-2" style="width: 12em; display: inline;" onclick="generate_progression()">Send</button>
                     </div>
                     <div class="col-4">
-                        <label for="bars">Bars:</label>
+                        <label for="bars" style="width: 3.8em;">Bars:</label>
                         <input type="text" id="bars" class="form-control form-control-sm" style="width: 5em; display: inline;" value="1">
                         <br/>
-                        <label for="triads">Triads:</label>
+                        <label for="triads" style="width: 3.8em;">Triads:</label>
                         <input type="text" id="triads" class="form-control form-control-sm" style="width: 5em; display: inline;" value="3">
                         <br/>
-                        <label for="sevenths">Sevenths:</label>
+                        <label for="sevenths" style="width: 3.8em;">Sevenths:</label>
                         <input type="text" id="sevenths" class="form-control form-control-sm" style="width: 5em; display: inline;" value="2">
                     </div>
                 </div>
@@ -57,15 +60,13 @@
                     <div class="col-6">
                         <img src="img/circle_of_fifths.png" alt="circle of fifths" style="width: 100%;"/>
                     </div>
-                    <div class="col-5">
-                        <label for="mth">Mapping Tonal Harmony:</label>
-                        <textarea class="form-control mt-0" rows="5" id="mth"></textarea>
-                    </div>
                 </div>
             </div>
             <!-- table -->
             <div class="col-4">
                 <table id="displayTable" class="table table-hover mt-3"></table>
+                <label for="mth">Mapping Tonal Harmony:</label>
+                <textarea class="form-control mt-0" rows="2" id="mth"></textarea>
             </div>
         </div>
     </div>
