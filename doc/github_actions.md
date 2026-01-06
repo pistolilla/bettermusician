@@ -7,8 +7,8 @@ First, you must tell AWS to trust GitHub's token provider.
 1. Go to the IAM Console > Identity providers.
 1. Click Add provider.
 1. Select OpenID Connect.
-1. Provider URL: https://token.actions.githubusercontent.com
-1. Audience: sts.amazonaws.com
+1. Provider URL: `https://token.actions.githubusercontent.com`
+1. Audience: `sts.amazonaws.com`
 1. Click Add provider.
 
 ## Step 2: Create the IAM Role and Trust Policy
@@ -16,7 +16,7 @@ This is the most critical step. You will create a role and attach a policy that 
 
 1. Go to IAM Console > Roles > Create role.
 1. Select Web identity.
-1. Choose the provider you just created (token.actions.githubusercontent.com) and the audience (sts.amazonaws.com).
+1. Choose the provider you just created (`token.actions.githubusercontent.com`) and the audience (`sts.amazonaws.com`).
 1. Click Next.
 1. Permissions: Search for and select `AdministratorAccess`. (Note: In a production environment, it is best practice to scope this down to the Least Privilege).
 1. Name the role `GitHubActionsAdminRole` and create it.
@@ -27,6 +27,7 @@ Now you need to edit the Trust Policy to ensure only your GitHub account can use
 1. Open the Role you just created.
 1. Go to the Trust relationships tab and click Edit trust policy.
 1. Replace the JSON with the following. This uses the StringLike condition to match any repository within your specific GitHub organization/account.
+Tried `repo:pistolilla/bettermusician/` but didn't work
 ```json
 {
     "Version": "2012-10-17",
@@ -42,7 +43,7 @@ Now you need to edit the Trust Policy to ensure only your GitHub account can use
                     "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
                 },
                 "StringLike": {
-                    "token.actions.githubusercontent.com:sub": "repo:pistolilla/bettermusician/*"
+                    "token.actions.githubusercontent.com:sub": "repo:pistolilla/*"
                 }
             }
         }
@@ -80,7 +81,7 @@ resource "aws_iam_role" "github_actions" {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
           }
           StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:pistolilla/bettermusician/*"
+            "token.actions.githubusercontent.com:sub" = "repo:pistolilla/*"
           }
         }
       }
