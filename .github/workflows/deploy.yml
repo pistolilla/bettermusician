@@ -17,13 +17,14 @@ jobs:
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
+
+      - name: Setup AWS SAM CLI
+        uses: aws-actions/setup-sam@v2
         with:
           role-to-assume: arn:aws:iam::058641753359:role/GitHubActionsAdminRole
           aws-region: us-east-1
 
-      - name: Verify Admin Access
+      - name: Deploy with AWS SAM
         run: |
-          # This command lists S3 buckets to prove access
-          aws s3 ls
-          # This command proves identity
-          aws sts get-caller-identity
+          sam build
+          sam deploy --no-fail-on-empty-changeset
